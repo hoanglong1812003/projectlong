@@ -1,98 +1,245 @@
-:root{
-  --accent:#e94f6d;
-  --muted:#ffeef0;
-  --card:#fff;
-  --text:#222;
-  --soft:#f9eaf0;
+/* =========================================================
+    ROOT & RESET
+========================================================= */
+:root {
+  --accent: #e94f6d;
+  --muted: #ffeef0;
+  --card: #fff;
+  --text: #222;
+  --soft: #f9eaf0;
+
+  --blue-main: #4b7be5;
+  --blue-dark: #1d4ed8;
+  --blue-soft: #e8f0ff;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
   font-family: 'Segoe UI', Roboto, "Helvetica Neue", Arial;
   background: linear-gradient(180deg, #fffafa 0%, #fff 60%);
-  color:var(--text);
-  min-height:100vh;
+  color: var(--text);
+  min-height: 100vh;
 }
 
-/* audio button */
-.audio-btn{
-  position:fixed;
-  left:18px;
-  bottom:18px;
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  border:none;
-  font-size:26px;
-  background:linear-gradient(135deg,#ff6b8a,#ff9fa8);
-  color:white;
-  box-shadow:0 6px 18px rgba(0,0,0,0.15);
-  cursor:pointer;
-  z-index:999;
+/* =========================================================
+    AUDIO BUTTON
+========================================================= */
+.audio-btn {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  font-size: 26px;
+  background: linear-gradient(135deg, #ff6b8a, #ff9fa8);
+  color: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 999;
 }
 
-/* main container */
-.container{
-  max-width:1200px;
-  margin:24px auto;
-  padding:12px;
+/* =========================================================
+    MAIN CONTAINER
+========================================================= */
+.container {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 12px;
 }
 
-/* hero */
-.hero{
-  display:flex;
-  gap:20px;
-  align-items:center;
-  background:linear-gradient(90deg,#fff7f9, #fefefe);
-  border-radius:12px;
-  padding:30px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.05);
-}
-.hero-left{flex:1}
-.hero-right{width:420px}
-
-/* texts */
-.subtitle{color:#2f8ce6; font-weight:700; margin:0 0 8px 0; font-size:28px}
-.name{font-size:56px; color:#e94f3a; margin:0 0 12px 0}
-.grad-date{font-size:28px; color:#6d3fb5; margin-bottom:18px}
-
-.countdown{display:flex; gap:18px; margin-bottom:12px}
-.countdown > div{background:linear-gradient(180deg,#fff,#fff); padding:12px 18px; border-radius:10px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.06)}
-.countdown span{display:block; font-size:28px; font-weight:700}
-.countdown small{display:block; font-size:12px; color:#b23}
-
-/* photo */
-.photo-frame{border-radius:50%; width:420px; height:420px; overflow:hidden; border:8px solid #f6dfe5; box-shadow:0 8px 30px rgba(0,0,0,0.08)}
-.photo-frame img{width:100%; height:100%; object-fit:cover; display:block}
-
-/* sections */
-.card{background:var(--card); border-radius:12px; padding:22px; margin:20px 0; box-shadow:0 6px 20px rgba(0,0,0,0.04)}
-.calendar-grid{height:220px; display:flex; align-items:center; justify-content:center}
-.calendar-day{font-size:48px; color:var(--accent); font-weight:700}
-.highlight{border:6px solid #ff5777; border-radius:50%; padding:18px}
-
-/* layout */
-.calendar, .invite{display:flex; gap:20px}
-.invite-card{flex:2}
-.control-card{flex:1}
-
-/* inputs */
-input[type=datetime-local]{width:100%; padding:8px; border-radius:8px; border:1px solid #ddd; margin-top:8px}
-button{padding:8px 14px; border-radius:8px; border:none; cursor:pointer; background:var(--accent); color:white}
-button#clear-date{background:#aaa}
-
-/* small */
-.small{font-size:12px;color:#666}
-
-/* responsive */
-@media (max-width:900px){
-  .hero{flex-direction:column; align-items:flex-start}
-  .hero-right{width:100%}
-  .photo-frame{width:260px; height:260px}
-  .name{font-size:36px}
+/* =========================================================
+    HERO SECTION
+========================================================= */
+.hero {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: linear-gradient(90deg, #fff7f9, #fefefe);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
 }
 
-/* Cuốn lịch */
+.hero-left {
+  flex: 1;
+}
+
+.hero-right {
+  width: 420px;
+}
+
+/* HERO TEXTS */
+.subtitle {
+  color: #2f8ce6;
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.name {
+  font-size: 56px;
+  color: #e94f3a;
+  margin: 0 0 12px 0;
+}
+
+.grad-date {
+  font-size: 28px;
+  color: #6d3fb5;
+  margin-bottom: 18px;
+}
+
+/* COUNTDOWN */
+.countdown {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.countdown > div {
+  background: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.countdown span {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.countdown small {
+  display: block;
+  font-size: 12px;
+  color: #b23;
+}
+
+/* =========================================================
+    PHOTO FRAME
+========================================================= */
+.photo-frame {
+  border-radius: 50%;
+  width: 420px;
+  height: 420px;
+  overflow: hidden;
+  border: 8px solid #f6dfe5;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+    GENERIC CARD
+========================================================= */
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+}
+
+/* =========================================================
+    CALENDAR SINGLE-DAY
+========================================================= */
+.calendar-grid {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day {
+  font-size: 48px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.highlight {
+  border: 6px solid #ff5777;
+  border-radius: 50%;
+  padding: 18px;
+}
+
+/* LAYOUT */
+.calendar,
+.invite {
+  display: flex;
+  gap: 20px;
+}
+
+.invite-card {
+  flex: 2;
+}
+
+.control-card {
+  flex: 1;
+}
+
+/* INPUT */
+input[type=datetime-local] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 8px;
+}
+
+button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+}
+
+button#clear-date {
+  background: #aaa;
+}
+
+.small {
+  font-size: 12px;
+  color: #666;
+}
+
+/* =========================================================
+    RESPONSIVE HERO
+========================================================= */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-right {
+    width: 100%;
+  }
+
+  .photo-frame {
+    width: 260px;
+    height: 260px;
+  }
+
+  .name {
+    font-size: 36px;
+  }
+}
+
+/* =========================================================
+    CALENDAR BOOK (SỔ LỊCH)
+========================================================= */
 .calendar-book {
   width: 380px;
   margin: 0 auto;
@@ -103,9 +250,8 @@ button#clear-date{background:#aaa}
   overflow: hidden;
 }
 
-/* Header của cuốn lịch */
 .calendar-header {
-  background: #e8f0ff;
+  background: var(--blue-soft);
   padding: 18px 0 10px;
   text-align: center;
   position: relative;
@@ -124,11 +270,10 @@ button#clear-date{background:#aaa}
   font-size: 18px;
 }
 
-/* Lỗ bấm của lịch */
+/* Lỗ bấm */
 .binder {
   width: 100%;
   height: 15px;
-  background: transparent;
   display: flex;
   justify-content: center;
   gap: 14px;
@@ -144,7 +289,7 @@ button#clear-date{background:#aaa}
   border-radius: 5px;
 }
 
-/* Trang lịch */
+/* TRANG LỊCH */
 .calendar-page {
   padding: 20px;
 }
@@ -167,11 +312,11 @@ button#clear-date{background:#aaa}
   color: #3b3b3b;
 }
 
-/* Ngày được khoanh tròn */
+/* Ngày đặc biệt */
 .marked-day {
   position: relative;
   font-weight: bold;
-  color: #1d4ed8;
+  color: var(--blue-dark);
 }
 
 .marked-day::after {
@@ -183,13 +328,14 @@ button#clear-date{background:#aaa}
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 3px solid #1d4ed8;
-  background: rgba(29,78,216,0.07);
+  border: 3px solid var(--blue-dark);
+  background: rgba(29, 78, 216, 0.07);
   z-index: -1;
 }
 
-/* ===== SECTION TRI ÂN ===== */
-
+/* =========================================================
+    GRATITUDE SECTION (DÒNG THỜI GIAN)
+========================================================= */
 .gratitude-section {
   margin: 60px auto;
   padding: 20px;
@@ -198,7 +344,7 @@ button#clear-date{background:#aaa}
 
 .grat-title {
   font-size: 34px;
-  color: #4b7be5;
+  color: var(--blue-main);
   font-weight: 700;
   margin-bottom: 6px;
 }
@@ -218,10 +364,13 @@ button#clear-date{background:#aaa}
   margin: 0 auto;
 }
 
-/* BÊN TRÁI - HÌNH */
+.grat-container.reverse {
+  flex-direction: row-reverse;
+}
+
+/* IMAGE MASK */
 .image-wrapper {
   width: 430px;
-  height: auto;
   position: relative;
   overflow: hidden;
   border-radius: 28px;
@@ -237,7 +386,7 @@ button#clear-date{background:#aaa}
   object-fit: cover;
 }
 
-/* BÊN PHẢI - CHỮ */
+/* TEXT */
 .grat-right {
   max-width: 520px;
   text-align: left;
@@ -252,3 +401,136 @@ button#clear-date{background:#aaa}
 .grat-text strong {
   color: #000;
 }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .grat-container,
+  .grat-container.reverse {
+    flex-direction: column;
+  }
+
+  .image-wrapper {
+    width: 100%;
+  }
+
+  .grat-right {
+    text-align: center;
+  }
+}
+
+/* =========================================================
+    RSVP SECTION (MỜI THAM DỰ)
+========================================================= */
+.rsvp-section {
+  margin: 70px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.rsvp-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 32px 36px;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* NỘI DUNG BÊN TRÁI */
+.rsvp-content {
+  flex: 1.3;
+  text-align: left;
+  padding: 10px;
+}
+
+.rsvp-title {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--blue-main);
+}
+
+.rsvp-desc {
+  font-size: 18px;
+  color: #4b5563;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* BUTTON */
+.rsvp-actions {
+  margin-top: 10px;
+}
+
+.rsvp-btn {
+  display: inline-block;
+  padding: 14px 34px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #ff9fa8);
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(233,79,109,0.25);
+  transition: 0.2s ease;
+}
+
+.rsvp-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(233,79,109,0.35);
+}
+
+.rsvp-btn:active {
+  transform: translateY(0);
+}
+
+/* ẢNH BÊN PHẢI */
+.rsvp-visual {
+  flex: 1;
+  max-width: 380px;
+}
+
+.rsvp-visual img {
+  width: 100%;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  object-fit: cover;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .rsvp-card {
+    flex-direction: column-reverse;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .rsvp-content {
+    text-align: center;
+    padding: 0;
+  }
+
+  .rsvp-title {
+    font-size: 28px;
+  }
+
+  .rsvp-desc {
+    font-size: 16px;
+  }
+
+  .rsvp-btn {
+    width: 80%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .rsvp-visual {
+    max-width: 100%;
+  }
+}
+
