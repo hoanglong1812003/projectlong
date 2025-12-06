@@ -1,0 +1,12 @@
+{
+  "name": "grad-invite",
+  "version": "1.0.0",
+  "description": "Graduation invite page with countdown and YouTube audio button",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
