@@ -1,16 +1,18 @@
 // ==== CONFIG ====
-// Thay bằng YouTube video id bạn muốn (chỉ id, ví dụ: "dQw4w9WgXcQ")
-const YOUTUBE_VIDEO_ID = "MJzqr9qdopQ"; // <-- đổi ở đây
+// YouTube video id (chỉ id)
+const YOUTUBE_VIDEO_ID = "MJzqr9qdopQ";
 
-// Ảnh mặc định có thể thay hoặc người dùng sẽ chèn link trong HTML
 // =================
-
 document.addEventListener('DOMContentLoaded', () => {
-  const audioBtn = document.getElementById('audio-btn');
-  const ytContainer = document.getElementById('yt-container');
+  // --------- helpers ----------
+  function qs(id) { return document.getElementById(id); }
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
 
-  let isPlaying = false;
+  // --------- Audio / YouTube autoplay (try) ----------
+  const ytContainer = qs('yt-container');
+  const audioBtn = qs('audio-btn');
   let iframeEl = null;
+  let isPlaying = false;
 
   function createYouTubeIframe(id) {
     // tạo iframe với autoplay khi người dùng click (tương tác)
@@ -47,48 +49,62 @@ document.addEventListener('DOMContentLoaded', () => {
       audioBtn.textContent = '🔊';
     }
   });
+  
 
-  // ===== Countdown logic =====
-  const gradDateInput = document.getElementById('grad-date');
-  const setBtn = document.getElementById('set-date');
-  const clearBtn = document.getElementById('clear-date');
+  // --------- Countdown logic ----------
+  // Grab elements but allow missing ones
+  const gradDateInput = qs('grad-date'); // may be null if no input on page
+  const setBtn = qs('set-date');
+  const clearBtn = qs('clear-date');
 
-  const daysEl = document.getElementById('days');
-  const hoursEl = document.getElementById('hours');
-  const minutesEl = document.getElementById('minutes');
-  const secondsEl = document.getElementById('seconds');
-  const displayDate = document.getElementById('display-date');
-  const inviteDateText = document.getElementById('invite-date-text');
-  const infoDateText = document.getElementById('info-date');
+  const daysEl = qs('days');
+  const hoursEl = qs('hours');
+  const minutesEl = qs('minutes');
+  const secondsEl = qs('seconds');
+  const displayDate = qs('display-date');
+  const inviteDateText = qs('invite-date-text');
+  const infoDateText = qs('info-date');
+
+  // fallback safe setters
+  function safeSet(el, v) { if (el) el.textContent = v; }
 
   let countdownTimer = null;
-  let targetDate = null;
-
-  // Helper
-  function pad(n){ return n < 10 ? '0' + n : '' + n; }
 
   function updateDisplayDate(d) {
-    // format: DD | Tháng MM | YYYY
+    if (!(d instanceof Date) || isNaN(d)) return;
     const day = d.getDate();
     const month = d.getMonth() + 1;
     const year = d.getFullYear();
-    displayDate.textContent = `${day} | Tháng ${pad(month)} | ${year}`;
-    inviteDateText.textContent = `${pad(day)}/${pad(month)}/${year}`;
-    infoDateText.textContent = `${pad(day)}/${pad(month)}/${year}`;
+    safeSet(displayDate, `${day} | Tháng ${pad(month)} | ${year}`);
+    safeSet(inviteDateText, `${pad(day)}/${pad(month)}/${year}`);
+    safeSet(infoDateText, `${pad(day)}/${pad(month)}/${year}`);
+  }
+
+  function updateCountdownValues(days, hours, mins, secs) {
+    safeSet(daysEl, String(days));
+    safeSet(hoursEl, pad(hours));
+    safeSet(minutesEl, pad(mins));
+    safeSet(secondsEl, pad(secs));
+  }
+
+  function clearCountdownDisplay() {
+    updateCountdownValues(0, 0, 0, 0);
   }
 
   function startCountdown(toDate) {
+    if (!(toDate instanceof Date) || isNaN(toDate)) {
+      console.warn('Invalid target date for countdown', toDate);
+      clearCountdownDisplay();
+      return;
+    }
     if (countdownTimer) clearInterval(countdownTimer);
+
     function tick() {
       const now = new Date();
       const diff = toDate - now;
       if (diff <= 0) {
-        // kết thúc
         clearInterval(countdownTimer);
-        daysEl.textContent = 0;
-        hoursEl.textContent = "00";
-        minutesEl.textContent = "00";
-        secondsEl.textContent = "00";
+        clearCountdownDisplay();
         return;
       }
       const sec = Math.floor(diff / 1000);
@@ -96,60 +112,64 @@ document.addEventListener('DOMContentLoaded', () => {
       const hours = Math.floor((sec % (3600*24)) / 3600);
       const mins = Math.floor((sec % 3600) / 60);
       const secs = sec % 60;
-
-      daysEl.textContent = days;
-      hoursEl.textContent = pad(hours);
-      minutesEl.textContent = pad(mins);
-      secondsEl.textContent = pad(secs);
+      updateCountdownValues(days, hours, mins, secs);
     }
+
+    // run immediately then every second
     tick();
     countdownTimer = setInterval(tick, 1000);
   }
 
-  // Set button
-  setBtn.addEventListener('click', () => {
-    const val = gradDateInput.value;
-    if (!val) {
-      alert('Vui lòng chọn ngày giờ hợp lệ.');
-      return;
-    }
-    const d = new Date(val);
-    if (isNaN(d.getTime())) {
-      alert('Ngày giờ không hợp lệ.');
-      return;
-    }
-    targetDate = d;
-    updateDisplayDate(d);
+  // Attach set/clear button handlers but only if elements exist
+  if (setBtn && gradDateInput) {
+    setBtn.addEventListener('click', () => {
+      const val = gradDateInput.value;
+      if (!val) { alert('Vui lòng chọn ngày giờ hợp lệ.'); return; }
+      const d = new Date(val);
+      if (isNaN(d.getTime())) { alert('Ngày giờ không hợp lệ.'); return; }
+      updateDisplayDate(d);
+      if (d > new Date()) startCountdown(d);
+      else {
+        if (countdownTimer) clearInterval(countdownTimer);
+        clearCountdownDisplay();
+        alert('Ngày bạn nhập đã tới hoặc đã qua. Đồng hồ đếm ngược sẽ không chạy.');
+      }
+    });
+  }
 
-    if (d > new Date()) {
-      startCountdown(d);
-    } else {
-      // nếu ngày đã qua thì reset timer và hiển thị 0
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (gradDateInput) gradDateInput.value = '';
       if (countdownTimer) clearInterval(countdownTimer);
-      daysEl.textContent = 0;
-      hoursEl.textContent = "00";
-      minutesEl.textContent = "00";
-      secondsEl.textContent = "00";
-      alert('Ngày bạn nhập đã tới hoặc đã qua. Đồng hồ đếm ngược sẽ không chạy.');
+      clearCountdownDisplay();
+      // reset to default sample date
+      const sample = new Date('2026-01-09T07:30:00');
+      updateDisplayDate(sample);
+    });
+  }
+
+  // ---- Init with sample date (09 Jan 2026 07:30 local) ----
+  try {
+    const sampleDate = new Date('2026-01-09T07:30:00');
+    updateDisplayDate(sampleDate);
+    // Only start countdown if sampleDate is in future
+    if (sampleDate > new Date()) {
+      startCountdown(sampleDate);
+    } else {
+      // sample is in past on user's client: show zeros
+      clearCountdownDisplay();
     }
-  });
+  } catch (e) {
+    console.error('Init countdown error', e);
+    clearCountdownDisplay();
+  }
 
-  // Clear button
-  clearBtn.addEventListener('click', () => {
-    gradDateInput.value = '';
-    if (countdownTimer) clearInterval(countdownTimer);
-    daysEl.textContent = 0;
-    hoursEl.textContent = "00";
-    minutesEl.textContent = "00";
-    secondsEl.textContent = "00";
-    // reset to default sample
-    const sample = new Date('2026-01-09T07:30:00');
-    updateDisplayDate(sample);
-  });
-
-  // Init with sample date
-  const sampleDate = new Date('2026-01-09T07:30:00');
-  updateDisplayDate(sampleDate);
-  // if sample in future, start countdown
-  if (sampleDate > new Date()) startCountdown(sampleDate);
+  // Small safety: log if important elements missing
+  const missing = [];
+  if (!daysEl) missing.push('days');
+  if (!hoursEl) missing.push('hours');
+  if (!minutesEl) missing.push('minutes');
+  if (!secondsEl) missing.push('seconds');
+  if (!displayDate) missing.push('display-date');
+  if (missing.length) console.warn('Some countdown elements are missing from the page:', missing.join(', '));
 });
