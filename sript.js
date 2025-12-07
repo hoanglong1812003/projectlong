@@ -143,12 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
     minutesEl.textContent = "00";
     secondsEl.textContent = "00";
     // reset to default sample
-    const sample = new Date('2026-01-09T07:30:00');
+    const sampleDate = new Date(2026, 0, 9, 7, 30, 0); 
+
     updateDisplayDate(sample);
   });
 
   // Init with sample date
-  const sampleDate = new Date('2026-01-09T07:30:00');
+  const sampleDate = new Date(2026, 0, 9, 7, 30, 0); 
+
   updateDisplayDate(sampleDate);
   // if sample in future, start countdown
   if (sampleDate > new Date()) startCountdown(sampleDate);
