@@ -1,6 +1,6 @@
 // ==== CONFIG ====
 // YouTube video id (chỉ id)
-const YOUTUBE_VIDEO_ID = "MJzqr9qdopQ";
+const YOUTUBE_VIDEO_ID = "21hQsnpdNpA";
 
 // =================
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,38 +15,39 @@ document.addEventListener('DOMContentLoaded', () => {
   let isPlaying = false;
 
   function createYouTubeIframe(id) {
-    // tạo iframe với autoplay khi người dùng click (tương tác)
     const iframe = document.createElement('iframe');
     iframe.width = "0";
     iframe.height = "0";
     iframe.style.border = "0";
     iframe.style.position = "fixed";
     iframe.style.left = "-9999px";
-    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&controls=0&modestbranding=1`;
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&rel=0&controls=0&modestbranding=1`;
     iframe.allow = "autoplay; encrypted-media";
     return iframe;
   }
 
+  // Auto-play on page load - REMOVED
+  // Nhạc chỉ phát khi người dùng click button
+
   audioBtn.addEventListener('click', () => {
     if (!isPlaying) {
-      // nếu chưa tạo iframe thì tạo
       if (!iframeEl) {
         iframeEl = createYouTubeIframe(YOUTUBE_VIDEO_ID);
         ytContainer.appendChild(iframeEl);
       } else {
-        // reload src to force play (bảo đảm tương tác)
-        iframeEl.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&controls=0&modestbranding=1`;
+        iframeEl.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&rel=0&controls=0&modestbranding=1`;
       }
-      audioBtn.textContent = '⏸'; // cập nhật icon
+      audioBtn.querySelector('.audio-icon').textContent = '⏸';
+      audioBtn.querySelector('.audio-text').textContent = 'PAUSE';
       isPlaying = true;
     } else {
-      // để tắt: remove iframe (YouTube sẽ dừng)
       if (iframeEl && iframeEl.parentNode) {
         iframeEl.parentNode.removeChild(iframeEl);
         iframeEl = null;
       }
       isPlaying = false;
-      audioBtn.textContent = '🔊';
+      audioBtn.querySelector('.audio-icon').textContent = '🔊';
+      audioBtn.querySelector('.audio-text').textContent = 'MUSIC';
     }
   });
   
